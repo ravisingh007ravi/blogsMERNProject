@@ -1,10 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState,useContext } from 'react';
+import { Link } from "react-router-dom";
 import Logo from '../images/blogger.png';
 import { Box, TextField, Button, styled } from '@mui/material';
+import { useNavigate } from "react-router-dom";
+import axios from 'axios';
+import { DataContext } from './DataProvider';
 
 
 const Components = styled(Box)`
-    
     border-radius: 14px;
     background-color:white;
     width:400px;
@@ -32,53 +35,67 @@ const Wrapper = styled(Box)`
 `;
 
 const LoginButton = styled(Button)`
-
     text-transform:none;
     background:#FB641B;
 `
 
 const SignButton = styled(Button)`
-
     text-transform:none;
     background:#fff;
     color:#2874f0;
     box-shadow: 0px 2px 4px 0px rgb(0 0 0/ 20%)
 `
+const SignUpLink = styled(Link)({
+    color: '#2874f0',
+    textTransform: 'none',
+    textDecoration: 'none'
+})
 
 
-function LogIn() {
 
-    const [account, setaccount] = useState('login')
+function LogIn({isUserAuthentication}) {
 
-    function toggleSignUp() {
+    const navigate = useNavigate();
+    const [logInData, seTLogInData] = useState({ userName: '', password: '' })
 
-        account === 'SignUp' ? setaccount('login') : setaccount('SignUp')
+    const changeLogInData = (e) => {
+        e.preventDefault()
+        seTLogInData({ ...logInData, [e.target.name]: e.target.value })
+    }
+
+    const{setAccount} = useContext(DataContext)
+
+    const submitLogInDataBAse = async (e) => {
+        e.preventDefault()
+        try {
+
+            let logInUser = await axios.post('/logIn', logInData)
+            let name = logInUser.data.loggedAuthor.name;
+            let userName =logInUser.data.loggedAuthor.userName;
+            
+            let token = logInUser.data.token;
+            if (logInUser.status === false) window.alert("invalid data");
+
+            else {
+                sessionStorage.setItem('AcessToken',token);
+                setAccount({userName:userName,name:name});
+                isUserAuthentication(true);
+                navigate('/');
+            }
+        }
+        catch (err) { window.alert(err.response.data.msg) }
     }
 
     return (
         <Components>
             <Box>
-                <Image src={Logo} alt="LogoSignUp" />
-
-                {account === 'login' ?
-
-                    <Wrapper>
-                        <TextField id="standard-basic" label="Enter UserName" variant="standard" />
-                        <TextField id="standard-basic" label="Enter Password" variant="standard" />
-                        <LoginButton variant="contained">LogIn</LoginButton>
-                        <SignButton onClick={() => toggleSignUp()} >CREATE AN ACCOUNT</SignButton>
-                    </Wrapper>
-
-                    :
-                    
-                    <Wrapper>
-                        <TextField id="standard-basic" label="Enter Name" variant="standard" />
-                        <TextField id="standard-basic" label="Enter UserName" variant="standard" />
-                        <TextField id="standard-basic" label="Enter Password" variant="standard" />
-                        <LoginButton variant="contained">SignUp</LoginButton>
-                        <SignButton onClick={() => toggleSignUp()} >Already have an account</SignButton>
-                    </Wrapper>
-                }
+                <Image src={Logo} alt="LogoSignUp"/>
+                <Wrapper>
+                    <TextField name='userName' onChange={changeLogInData} id="standard-basic" label="Enter UserName" variant="standard" />
+                    <TextField name='password' onChange={changeLogInData} id="standard-basic" label="Enter Password" variant="standard" />
+                    <LoginButton onClick={submitLogInDataBAse} variant="contained">LogIn</LoginButton>
+                    <SignButton ><SignUpLink to='/SignUp'>CREATE AN ACCOUNT</SignUpLink></SignButton>
+                </Wrapper>
             </Box>
         </Components>
     )

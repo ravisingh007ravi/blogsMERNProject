@@ -1,10 +1,44 @@
+import React, { useState } from 'react';
+import { BrowserRouter, Navigate, Outlet, Route, Routes } from 'react-router-dom';
+import {
+  LogIn, SignUp, Home, DataProvider,
+  Navbar, About, Contact, CreatePost
+} from './components/AllComponents';
 
-function App() {
-  return (
-    <div>
 
-    </div>
-  );
+
+const PriveRoute = ({ isAuthentication, ...props }) => {
+  return isAuthentication ?
+    <> <Navbar />
+      <Outlet />
+    </>
+    :
+    <Navigate replace to='/LogIn' />
 }
 
-export default App;
+function App() {
+
+  const [isAuthentication, isUserAuthentication] = useState(false);
+
+  return (
+    <DataProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path='SignUp' element={<SignUp />} />
+          <Route path='LogIn' element={<LogIn isUserAuthentication={isUserAuthentication} />} />
+
+          <Route path='/' element={<PriveRoute isAuthentication={isAuthentication} />}>
+            <Route path='/' element={<Home />} />
+            <Route path='/About' element={<About />} />
+            <Route path='/Contact' element={<Contact />} />
+            <Route path='/create' element={<CreatePost />} />
+          </Route>
+
+        </Routes>
+      </BrowserRouter>
+    </DataProvider>
+  )
+}
+
+export default App
+
