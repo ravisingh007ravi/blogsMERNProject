@@ -8,3 +8,5 @@ export {default as Contact} from './Contact';
 export {default as CreatePost} from './CreatePost';
 export {default as Post} from './Post';
 export {default as DetailsViewPost} from './DetailsViewPost';
+export {default as UpdateBlogs} from './UpdateBlogs';
+export {default as DeletedPost} from './DeletedPost';

@@ -37,11 +37,11 @@ exports.getAllBlogsData = async (req, res) => {
         const filter = req.params;
         
         if (filter.category == 'AllBlogs') {
-            const AllData = await blogModel.find().sort({_id:-1});
+            const AllData = await blogModel.find({isDeleted:false}).sort({_id:-1});
             return res.status(200).send({ msg: AllData })
         }
         else {
-            const getData = await blogModel.find({ categories: filter.category }).sort({_id:-1});
+            const getData = await blogModel.find({ categories: filter.category, isDeleted:false }).sort({_id:-1});
             if (!getData) return res.status(404).send({ msg: " Not blogs Presents" });
             return res.status(200).send({ msg: getData })
         }
@@ -61,7 +61,7 @@ exports.getBlogsData = async (req, res) => {
         let isValid = mongoose.Types.ObjectId.isValid(id)
         if (!isValid) return res.status(400).send({ msg: "enter valid objectID" })
 
-        let data = await blogModel.find({ _id: id })
+        let data = await blogModel.find({ _id: id, isDeleted:false })
         
         if (Object.keys(data).length == 0) {
             return res.status(400).send({ status: false, msg: "Invalid request Please provide valid blog  details" });
@@ -77,44 +77,24 @@ exports.getBlogsData = async (req, res) => {
 //<----------------This API used for Update Blogs of Logged in Author---------->//
 exports.updateBlog = async function (req, res) {
     try {
-        let inputId = req.params.blogId
 
-        if (!inputId) return res.status(400).send({ status: false, msg: "blog id required" })
-        let isValid = mongoose.Types.ObjectId.isValid(inputId)
-        if (!isValid) return res.status(400).send({ msg: "enter valid objectID" })
+        const Blogdata = req.body;
 
-        let author = req.body
-        let title = req.body.title
-        let body = req.body.body
-        let tags = req.body.tags
-        let subcategory = req.body.subcategory
+        const {picture, title, description,} =Blogdata;
 
-        if (Object.keys(author).length == 0) {
-            return res.status(400).send({ status: false, msg: "Invalid request Please provide valid Author  details" });
-        }
-
-        let date = Date.now()
-
+        let inputId = req.params.blogId;
 
         let data = await blogModel.findOne({ _id: inputId })
 
-        if (!(data.authorId == req.body.authorId)) {
-            return res.status(400).send({ msg: "you are not real user" })
-
-        }
-
-        let alert = await blogModel.findOne({ _id: inputId, isDeleted: true })
-        if (alert) return res.status(400).send({ msg: "Blog already deleted" })
+        
+        if (!data) return res.status(400).send({ msg: "Blog is Not Presents" })
 
         let blogs = await blogModel.findOneAndUpdate({ _id: inputId },
             {
-                $set: { title: title, body: body, isPublished: true, publishedAt: date },
-                $push: { tags: tags, subcategory: subcategory }
+                $set: {picture:picture, title: title, description: description }     
             },
             { new: true })
-
-
-        if (!blogs) return res.status(404).send({ msg: "no blog found" })
+            
         return res.status(200).send({ msg: blogs })
     }
     catch (error) {
@@ -126,27 +106,15 @@ exports.updateBlog = async function (req, res) {
 exports.deleteBlog = async function (req, res) {
     try {
 
+
         let inputId = req.params.blogId
 
-        let isValid = mongoose.Types.ObjectId.isValid(inputId)
-        if (!isValid) return res.status(400).send({ msg: "enter valid objectID" })
-
-        let date = Date.now()
-
-        let data1 = await blogModel.findOne({ _id: inputId })
-
-        if (!(data1.authorId == req.body.authorId)) {
-            return res.status(400).send({ msg: "you are not real user" })
-
-        }
-
-        let alert = await blogModel.findOne({ _id: inputId, isDeleted: true })
-        if (alert) return res.status(400).send({ msg: "Blog already deleted" })
+        let date = new Date();
 
         let data = await blogModel.findOneAndUpdate({ _id: inputId },
             { $set: { isDeleted: true, deletedAt: date } },
             { new: true })
-
+            
         if (!data) return res.status(404).send({ msg: "no data found" })
 
         return res.status(200).send({ status: true, msg: data })

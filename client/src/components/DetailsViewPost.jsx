@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { Delete, Edit } from '@mui/icons-material';
 import { DataContext } from './DataProvider';
+import { Link } from 'react-router-dom';
 
 const Container = styled(Box)`
       margin: 60px 100px;
@@ -76,9 +77,8 @@ function DetailsViewPost() {
       <Box style={{ float: 'right' }}>
         {
           account.userName === post.userName &&
-          <>
-            <EditIcon color='primary' />
-            <DeleteIcon color='error' />
+          <><Link to ={`/UpdateBlogs/${id}`}><EditIcon color='primary' /></Link>
+           <Link to = {`/DeletedPost/${id}`}><DeleteIcon color='error' /></Link>
           </>
         }
       </Box>

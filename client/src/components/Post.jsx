@@ -88,7 +88,7 @@ function Post() {
                 <Text>{value.categories}</Text>
                 <TitleText>{Elipis(value.title, 20)}</TitleText>
                 <Text>{value.userName}</Text>
-                <Description>{Elipis(value.description, 200)}</Description>
+                <Description>{Elipis(value.description, 100)}</Description>
               </Container>
             </Link>
 

@@ -17,7 +17,7 @@ router.get("/blogs/:authorId", authenticate, getBlogsData);
 //<----------------This API used for Update Blogs of Logged in Author------------------>//
 router.put("/blogs/:blogId", authorize, updateBlog);
 //<----------------These APIs used for Deleting Blogs---------------------------------->//
-router.delete("/blogs/:blogId", authorize, deleteBlog);
+router.delete("/blogs/:blogId",  deleteBlog);
 //<----------------These APIs used for Deleting Blogs by query of Logged in Author----->//
 router.delete("/blogs", authorize, deleteBlogQuery);
 

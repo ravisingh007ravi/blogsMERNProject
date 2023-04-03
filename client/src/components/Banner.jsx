@@ -1,6 +1,4 @@
-import React, { useContext } from 'react';
-import { DataContext } from './DataProvider';
-import { Box, Typography, styled } from '@mui/material';
+import { Box, styled } from '@mui/material';
 import { Button, Table, TableHead, TableRow, TableCell, TableBody, Grid } from '@mui/material';
 import HomeBanner from '../images/toy-bricks-table-with-word-blog.jpg';
 import { categories } from './HomeCategorieData';
@@ -9,9 +7,15 @@ import { Post } from './AllComponents';
 
 
 
+const ImageBanner = styled('img')({
+    width: '100%',
+    height: '40vh',
+    objectFit: 'cover'
+});
+
 const Image = styled(Box)`
     margin-top: 25px;
-    background: url(${HomeBanner});
+   
     width:100%;
     height: 40vh;
     object-fit: cover;
@@ -19,22 +23,6 @@ const Image = styled(Box)`
     align-items: center;
     justify-items: center;
     flex-direction: column;
-    `;
-
-const Header = styled(Typography)`
-
-    margin-top:100px;
-    font-size: 70px;
-    color: rgb(210, 133, 55);
-    line-height: 1.1;
-`;
-
-const SubHeader = styled(Typography)`
-    font-size: 20px;
-    background:rgb(210, 133, 55);
-    border-radius: 5px;
-    color: aqua;
-    padding:5px
 `;
 
 const StyleTable = styled(Table)`
@@ -61,13 +49,12 @@ function Banner() {
     const [serachParams] = useSearchParams();
     const category = serachParams.get('category')
 
-    const { account } = useContext(DataContext);
+
 
     return (
         <>
             <Image>
-                <Header>Blogs</Header>
-                <SubHeader>{account.name}</SubHeader>
+                <ImageBanner src={HomeBanner} alt="BannerImage" />
             </Image>
 
             <Grid container>

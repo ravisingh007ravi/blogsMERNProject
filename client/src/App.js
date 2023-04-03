@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { BrowserRouter, Navigate, Outlet, Route, Routes } from 'react-router-dom';
 import {
-  LogIn, SignUp, Home, DataProvider,
-  Navbar, About, Contact, CreatePost, DetailsViewPost
+  LogIn, SignUp, Home, DataProvider, UpdateBlogs,
+  Navbar, About, Contact, CreatePost, DetailsViewPost, DeletedPost
 } from './components/AllComponents';
 
 
@@ -33,6 +33,8 @@ function App() {
             <Route path='/Contact' element={<Contact />} />
             <Route path='/create' element={<CreatePost />} />
             <Route path='/DetailsViewPost/:id' element={<DetailsViewPost />} />
+            <Route path='/UpdateBlogs/:id' element={<UpdateBlogs />} />
+            <Route path='/DeletedPost/:id' element={<DeletedPost />} />
           </Route>
 
         </Routes>
