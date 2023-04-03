@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { BrowserRouter, Navigate, Outlet, Route, Routes } from 'react-router-dom';
 import {
   LogIn, SignUp, Home, DataProvider,
-  Navbar, About, Contact, CreatePost
+  Navbar, About, Contact, CreatePost, DetailsViewPost
 } from './components/AllComponents';
 
 
@@ -32,6 +32,7 @@ function App() {
             <Route path='/About' element={<About />} />
             <Route path='/Contact' element={<Contact />} />
             <Route path='/create' element={<CreatePost />} />
+            <Route path='/DetailsViewPost/:id' element={<DetailsViewPost />} />
           </Route>
 
         </Routes>

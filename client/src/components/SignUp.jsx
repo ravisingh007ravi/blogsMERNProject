@@ -60,15 +60,18 @@ function SignUp() {
         e.preventDefault()
         setSignUpData({ ...signUpData, [e.target.name]: e.target.value })
     }
-    
+
     const SignUpDataBase = async (e) => {
         e.preventDefault()
         try {
-            const user = await axios.post('/authors', signUpData)
+
+            const url = 'http://localhost:5000/authors';
+
+            const user = await axios.post(url, signUpData)
             if (user.status === false) window.alert("invalid data")
             else { navigate('/LogIn') }
         }
-        catch (err) {window.alert(err.response.data.msg)}
+        catch (err) { window.alert(err.response.data.msg) }
     }
 
 

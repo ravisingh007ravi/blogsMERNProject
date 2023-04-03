@@ -4,10 +4,9 @@ dotENV.config();
 
 const authenticate = (req, res, next) => {
   try {
-    let token = req.headers["x-api-key"];
-    let id = req.body.authorId;
     
-
+    let token = req.headers["x-api-key"];
+    
     if (!token) return res.status(400).send({ status: false, msg: "token must be present" });
 
     let decodedToken = jwt.verify(token, process.env.AcessSecretKey);
@@ -39,6 +38,5 @@ const authorize = function (req, res, next) {
     return res.status(500).send({ msg: error.message })
   }
 }
-
 
 module.exports = { authenticate, authorize };

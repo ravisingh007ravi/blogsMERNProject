@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { DataContext } from './DataProvider';
 import { Box, Typography, styled } from '@mui/material';
 import { Button, Table, TableHead, TableRow, TableCell, TableBody, Grid } from '@mui/material';
 import HomeBanner from '../images/toy-bricks-table-with-word-blog.jpg';
 import { categories } from './HomeCategorieData';
 import { Link, useSearchParams } from 'react-router-dom';
+import { Post } from './AllComponents';
 
 
 
@@ -48,30 +50,30 @@ const Stylebutton = styled(Button)`
 
 const StyleLink = styled(Link)({
 
-    textDecoration:'none',
-    color:'inherit'
+    textDecoration: 'none',
+    color: 'inherit'
 })
 
 
 
 function Banner() {
 
-    const [serachParams] =useSearchParams();
+    const [serachParams] = useSearchParams();
     const category = serachParams.get('category')
+
+    const { account } = useContext(DataContext);
 
     return (
         <>
             <Image>
                 <Header>Blogs</Header>
-                <SubHeader>Free Blogging Site</SubHeader>
+                <SubHeader>{account.name}</SubHeader>
             </Image>
-
-
 
             <Grid container>
                 <Grid item lg={2} sm={2} xs={12}>
 
-                    <StyleLink to={`/create?category=${category|| ''}`}>
+                    <StyleLink to={`/create?category=${category || 'all'}`}>
                         <Stylebutton variant="contained">Create Blog</Stylebutton>
                     </StyleLink>
                     <StyleTable>
@@ -85,7 +87,7 @@ function Banner() {
                                 <TableRow key={category.id}>
                                     <TableCell>
                                         <StyleLink to={`/?category=${category.type}`}> {category.type} </StyleLink>
-                                        </TableCell>
+                                    </TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
@@ -93,7 +95,7 @@ function Banner() {
                 </Grid>
 
                 <Grid container item xs={12} sm={10} xl={10}>
-                    post
+                    <Post />
                 </Grid>
             </Grid>
         </>

@@ -16,6 +16,11 @@ code {
   border: 1px solid rgba(red, green, blue, alpha);
   object-fit: fill;
   
+  margin: 5px;
+  padding: 5px;
+  border: 1px solid #878787;
+  border-radius: 10px;
+
 }
 
 

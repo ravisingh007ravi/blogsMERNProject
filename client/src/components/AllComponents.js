@@ -6,3 +6,5 @@ export {default as Navbar} from './Navbar';
 export {default as About} from './About';
 export {default as Contact} from './Contact';
 export {default as CreatePost} from './CreatePost';
+export {default as Post} from './Post';
+export {default as DetailsViewPost} from './DetailsViewPost';

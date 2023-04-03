@@ -62,22 +62,25 @@ function LogIn({isUserAuthentication}) {
         e.preventDefault()
         seTLogInData({ ...logInData, [e.target.name]: e.target.value })
     }
-
+    
     const{setAccount} = useContext(DataContext)
 
-    const submitLogInDataBAse = async (e) => {
+    const submitLogInDataBase = async (e) => {
         e.preventDefault()
         try {
-
-            let logInUser = await axios.post('/logIn', logInData)
+            const url ='http://localhost:5000/logIn';
+            
+            let logInUser = await axios.post(url, logInData)
             let name = logInUser.data.loggedAuthor.name;
             let userName =logInUser.data.loggedAuthor.userName;
             
             let token = logInUser.data.token;
+            let UserId = logInUser.data.UserId;
             if (logInUser.status === false) window.alert("invalid data");
 
             else {
-                sessionStorage.setItem('AcessToken',token);
+                localStorage.setItem('AcessToken',token);
+                localStorage.setItem('UserId',UserId);
                 setAccount({userName:userName,name:name});
                 isUserAuthentication(true);
                 navigate('/');
@@ -91,9 +94,9 @@ function LogIn({isUserAuthentication}) {
             <Box>
                 <Image src={Logo} alt="LogoSignUp"/>
                 <Wrapper>
-                    <TextField name='userName' onChange={changeLogInData} id="standard-basic" label="Enter UserName" variant="standard" />
-                    <TextField name='password' onChange={changeLogInData} id="standard-basic" label="Enter Password" variant="standard" />
-                    <LoginButton onClick={submitLogInDataBAse} variant="contained">LogIn</LoginButton>
+                    <TextField name='userName'  onChange={changeLogInData} id="standard-basic" label="Enter UserName" variant="standard" />
+                    <TextField name='password'  onChange={changeLogInData} id="standard-basic" label="Enter Password" variant="standard" />
+                    <LoginButton onClick={submitLogInDataBase} variant="contained" >LogIn</LoginButton>
                     <SignButton ><SignUpLink to='/SignUp'>CREATE AN ACCOUNT</SignUpLink></SignButton>
                 </Wrapper>
             </Box>
