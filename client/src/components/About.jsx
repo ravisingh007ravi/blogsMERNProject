@@ -45,7 +45,7 @@ function About() {
       <Grid item lg={6} sm={10} xs={12}>
         <Header>About Us</Header>
         <SubHeader>MERN Developer</SubHeader>
-        <BioData>Trained in Backend Development using Nodes with Express and MongoDB
+        <BioData>Trained in Backend Development using Nodes with ReactJs, Express and MongoDB
           Proficient in JavaScript. Hands-on in ES6
           Understand caching fundamentals and hands-on with Redis
           Hands-on experience with AWS S3 file upload and read Experienced in Agile methodology - Daily scrum, Sprint planning. Sprint review.

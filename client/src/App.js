@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { BrowserRouter, Navigate, Outlet, Route, Routes } from 'react-router-dom';
 import {
-  LogIn, SignUp, Home, DataProvider, UpdateBlogs,
+  LogIn, SignUp, Home, DataProvider, UpdateBlogs, NotFoundPage,
   Navbar, About, Contact, CreatePost, DetailsViewPost, DeletedPost
 } from './components/AllComponents';
 
@@ -24,6 +24,7 @@ function App() {
     <DataProvider>
       <BrowserRouter>
         <Routes>
+          
           <Route path='SignUp' element={<SignUp />} />
           <Route path='LogIn' element={<LogIn isUserAuthentication={isUserAuthentication} />} />
 
@@ -36,7 +37,7 @@ function App() {
             <Route path='/UpdateBlogs/:id' element={<UpdateBlogs />} />
             <Route path='/DeletedPost/:id' element={<DeletedPost />} />
           </Route>
-
+            <Route path='/*' element={<NotFoundPage />} />
         </Routes>
       </BrowserRouter>
     </DataProvider>

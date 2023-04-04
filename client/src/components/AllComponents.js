@@ -10,3 +10,4 @@ export {default as Post} from './Post';
 export {default as DetailsViewPost} from './DetailsViewPost';
 export {default as UpdateBlogs} from './UpdateBlogs';
 export {default as DeletedPost} from './DeletedPost';
+export {default as NotFoundPage} from './NotFoundPage';
